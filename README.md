@@ -3,7 +3,7 @@ Primeiro trabalho da faculdade em python :)
 
 Req do .env
 
-PASSWORD = "senha do email"
+PASSWORD = "senha do email" <br>
 EMAIL = "email"
 DRIVEPATH = "local onde esta o xslx"
 THISPATH = "local onde o projeto vai rodar"
