@@ -17,7 +17,7 @@ msg = MIMEMultipart()
 password = PASSWORD
 msg['From'] = EMAIL
 msg['To'] = TOEMAIL
-msg['Subject'] = 'Minhapikagrossa'
+msg['Subject'] = 'Trabalho de Mat - email@noreply'
 
 def SendEmail(aaaa:str):
     msg.attach(MIMEText(aaaa, 'plain'))

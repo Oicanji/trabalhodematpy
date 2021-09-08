@@ -120,10 +120,10 @@ def facDay(name:str):
         total = 0
         for item in soma:
             total = total + item
-        print(total)
+        return total
             
     else:
-        print('404: Country no has find')
+        return('404: Country no has find')
 
 def facMed(name:str):
     callback = exist()
@@ -139,13 +139,13 @@ def facMed(name:str):
         soma = 0;
         for items in med_all.values:
             soma = items[0] + soma
-        print(soma)
+        return soma
     else:
-        print('404: Fuel no has find')
+        return('404: Fuel no has find')
 
 fac = []
 def results():
-    fac.append(facDay("Brasil"))
+    fac.append((facDay("Brasil")))
     fac.append(facDay("EUA"))
     fac.append(facDay("Rússia"))
     fac.append(facDay("Arábia Saudita"))
@@ -153,5 +153,22 @@ def results():
 
     med = facMed("Biodiesel")
 
+    sleep(5)
+    msg = f"""Boa noite! \n
+    Aqui é Ignacio e tenho algumas informações:
+    Media dos Combutiveis
+    Brasil - {fac[0]}
+    EUA - {fac[1]}
+    Rússia - {fac[2]}
+    Arábia Saudita - {fac[3]}
+    Canadá - {fac[4]}
+
+    A media do Biodisel de todos os paises é {med}.
+
+    Github@Oicanji
+    https://github.com/Oicanji/trabalhodematpy
+    """
     
-    #SendEmail("gay")
+    SendEmail(msg)
+
+results()
