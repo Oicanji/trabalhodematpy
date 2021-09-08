@@ -8,14 +8,14 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-USER = os.environ['USER']
+EMAIL = os.environ['EMAIL']
 PASSWORD = os.environ['PASSWORD']
 TOEMAIL = os.environ['TOEMAIL']
 
 msg = MIMEMultipart()
 
 password = PASSWORD
-msg['From'] = USER
+msg['From'] = EMAIL
 msg['To'] = TOEMAIL
 msg['Subject'] = 'Minhapikagrossa'
 

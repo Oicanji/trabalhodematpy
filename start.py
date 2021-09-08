@@ -14,10 +14,12 @@ from send_email import SendEmail
 
 load_dotenv()
 
-USER = os.environ['USER']
+EMAIL = os.environ['EMAIL']
 PASSWORD = os.environ['PASSWORD']
 DRIVEPATH = os.environ['DRIVEPATH']
 THISPATH = os.environ["THISPATH"]
+
+pathXlsx = THISPATH+'\\T1_5.xlsx';
 
 objs = []
 
@@ -37,7 +39,7 @@ def getXlsx():
     navegador = webdriver.Chrome(chrome_options=chrome_options)
 
     navegador.get(DRIVEPATH)
-    navegador.find_element_by_id("identifierId").send_keys(USER)
+    navegador.find_element_by_id("identifierId").send_keys(EMAIL)
     navegador.find_element_by_id("identifierNext").click()
     sleep(2)
     navegador.find_element_by_name("password").send_keys(PASSWORD)
@@ -56,7 +58,7 @@ def getXlsx():
     navegador.close()
 
 def attObjs():
-    xls = pd.read_excel('T1_5.xlsx')
+    xls = pd.read_excel(pathXlsx)
     paises = xls.iloc[:,0:1]
     i = 0
     while i < len(paises):
@@ -65,7 +67,7 @@ def attObjs():
         i+=1
 
 def attTypes():
-    xls = pd.read_excel('T1_5.xlsx')
+    xls = pd.read_excel(pathXlsx)
     typess = xls.iloc[:,7:9]
     i = 0
     while i < len(typess):
@@ -75,7 +77,7 @@ def attTypes():
     types.pop(i-1)
 
 def attValue():
-    xls = pd.read_excel('T1_5.xlsx')
+    xls = pd.read_excel(pathXlsx)
     valores = xls.iloc[:,8:9]
     i = 0
     while i < len(valores):
@@ -84,23 +86,24 @@ def attValue():
         i+=1
     val.pop(i-1)
 
-def exist():
-    try:
-        with open('T1_5.xlsx', 'r'):
-            attValue()
-            attObjs()
-            attTypes()
-            return True
-
-    except IOError:
+def exist():   
+    if( os.path.exists(pathXlsx) ):
+        attValue()
+        attObjs()
+        attTypes()
+        return True
+    else:
         getXlsx()
-        return False 
+        return False
 
 def facDay(name:str):
     callback = exist()
+
+    if(not callback):
+        callback = exist()
     
     if name in objs and callback:
-        xls = pd.read_excel('T1_5.xlsx')
+        xls = pd.read_excel(pathXlsx)
         prod_day = xls.iloc[:,1:5]
         i = 0
         while objs[i] != name:
@@ -120,18 +123,13 @@ def facDay(name:str):
         print(total)
             
     else:
-        callback = exist()
-
-        if(not callback):
-            print('404: Country no has find')
-        else:
-            facDay(name)
+        print('404: Country no has find')
 
 def facMed(name:str):
     callback = exist()
 
     if name in types and callback:
-        xls = pd.read_excel('T1_5.xlsx')
+        xls = pd.read_excel(pathXlsx)
         med_all = xls.iloc[:,1:5]
         i = 0
         while(name != med_all.columns.values[i]):
@@ -143,13 +141,17 @@ def facMed(name:str):
             soma = items[0] + soma
         print(soma)
     else:
-        callback = exist()
+        print('404: Fuel no has find')
 
-        if(not callback):
-            print('404: Fuel no has find')
-        else:
-            facMed(name)
+fac = []
+def results():
+    fac.append(facDay("Brasil"))
+    fac.append(facDay("EUA"))
+    fac.append(facDay("Rússia"))
+    fac.append(facDay("Arábia Saudita"))
+    fac.append(facDay("Canadá"))
 
-#facDay("EUA")
-#facMed("Álcool")
-SendEmail("gay")
+    med = facMed("Biodiesel")
+
+    
+    #SendEmail("gay")
